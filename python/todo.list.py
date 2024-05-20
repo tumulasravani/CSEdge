@@ -1,54 +1,51 @@
-import random
+class TodoList:
+    def __init__(self):
+        self.tasks = []
 
-# define range and max_attempts
-lower_bound = 1
-upper_bound = 1000
-max_attempts = 10
+    def add_task(self, task):
+        self.tasks.append(task)
+        print("Task added successfully!")
 
-# generate the secret number
-secret_number = random.randint(lower_bound, upper_bound)
+    def remove_task(self, task):
+        if task in self.tasks:
+            self.tasks.remove(task)
+            print("Task removed successfully!")
+        else:
+            print("Task not found in the list.")
 
-# Get the user's guess
-def get_guess():
+    def show_tasks(self):
+        if self.tasks:
+            print("Your to-do list:")
+            for index, task in enumerate(self.tasks, start=1):
+                print(f"{index}. {task}")
+        else:
+            print("Your to-do list is empty.")
+
+def main():
+    todo_list = TodoList()
+
     while True:
-        try:
-            guess = int(input(f"Guess a number between {lower_bound} and {upper_bound}: "))
-            if lower_bound <= guess <= upper_bound:
-                return guess
-            else:
-                print("Invalid input. Please enter a number within the specified range.")
-        except ValueError:
-            print("Invalid input. Please enter a valid number.")
+        print("\nMenu:")
+        print("1. Add task")
+        print("2. Remove task")
+        print("3. Show tasks")
+        print("4. Exit")
 
-# Validate guess
-def check_guess(guess, secret_number):
-    if guess == secret_number:
-        return "Correct"
-    elif guess < secret_number:
-        return "Too low"
-    else:
-        return "Too high"
+        choice = input("Enter your choice: ")
 
-# track the number of attempts, detect if the game is over
-def play_game():
-    attempts = 0
-    won = False
-
-    while attempts < max_attempts:
-        attempts += 1
-        guess = get_guess()
-        result = check_guess(guess, secret_number)
-
-        if result == "Correct":
-            print(f"Congratulations! You guessed the secret number {secret_number} in {attempts} attempts.")
-            won = True
+        if choice == '1':
+            task = input("Enter task: ")
+            todo_list.add_task(task)
+        elif choice == '2':
+            task = input("Enter task to remove: ")
+            todo_list.remove_task(task)
+        elif choice == '3':
+            todo_list.show_tasks()
+        elif choice == '4':
+            print("Exiting the program.")
             break
         else:
-            print(f"{result}. Try again!")
-
-    if not won:
-        print(f"Sorry, you ran out of attempts! The secret number is {secret_number}.")
+            print("Invalid choice. Please try again.")
 
 if __name__ == "__main__":
-    print("Welcome to the Number Guessing Game!")
-    play_game()
+    main()
